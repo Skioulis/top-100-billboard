@@ -1,7 +1,7 @@
 import requests
 import datetime
 import os
-from login_to_spotipy import print_os_environ
+import login_to_spotipy as log
 
 
 from bs4 import BeautifulSoup
@@ -25,21 +25,25 @@ URL="https://www.billboard.com/charts/hot-100/"
 
 
 
+def get_the_list():
+    # gets the list form billboard
+    date = default_input()
 
+    billboard_parameters = {
+        "date": date.strftime("%Y-%m-%d")
+    }
 
-date = default_input()
+    header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"}
 
-billboard_parameters = {
-    "date": date.strftime("%Y-%m-%d")
-}
+    response = requests.get(url=f"{URL}{billboard_parameters["date"]}", headers=header)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"}
+    billboard_100 = soup.select(selector="li ul li h3")
 
-response = requests.get(url=f"{URL}{billboard_parameters["date"]}", headers=header)
-response.raise_for_status()
-soup = BeautifulSoup(response.text, 'html.parser')
+    return [song.getText().strip() for song in billboard_100]
 
-billboard_100 = soup.select(selector="li ul li h3")
+# songs_list = get_the_list()
 
-song_names = [song.getText().strip() for song in billboard_100]
+log.logintospotipy(clientid=os.environ['CLIENTID'], clientsecret=os.environ['CLIENTSECRET'])
 
