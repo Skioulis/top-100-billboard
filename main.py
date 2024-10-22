@@ -45,5 +45,7 @@ def get_the_list():
 
 # songs_list = get_the_list()
 
-log.logintospotipy(clientid=os.environ['CLIENTID'], clientsecret=os.environ['CLIENTSECRET'])
+sp = log.logintospotipy(clientid=os.environ['CLIENTID'], clientsecret=os.environ['CLIENTSECRET'])
+
+print(sp.current_user())
 
