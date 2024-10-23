@@ -8,9 +8,9 @@ def logintospotipy (clientid, clientsecret):
         client_secret=clientsecret,
         redirect_uri="http://example.com",
         scope="playlist-modify-private",
-        show_dialog=True,
-        cache_path="token.txt",
-        username="Fotis Fotiadis",
+        # show_dialog=True,
+        # cache_path="token.txt",
+        # username="Fotis Fotiadis",
     )
     )
 
